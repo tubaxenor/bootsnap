@@ -44,7 +44,12 @@ module Bootsnap
         def write(message, block: true)
           payload = Marshal.dump(message)
           if block
-            to_io.write(payload)
+            begin
+              to_io.write(payload)
+            rescue Encoding::UndefinedConversionError => e
+              puts "Message: #{message}"
+              puts "Payload: #{payload}"
+            end
             true
           else
             to_io.write_nonblock(payload, exception: false) != :wait_writable
