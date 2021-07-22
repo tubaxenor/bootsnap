@@ -47,8 +47,7 @@ module Bootsnap
             begin
               to_io.write(payload)
             rescue Encoding::UndefinedConversionError => e
-              puts "Message: #{message}"
-              puts "Payload: #{payload}"
+              puts "Errored Message: #{message}"
             end
             true
           else
