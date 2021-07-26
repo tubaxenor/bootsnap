@@ -37,14 +37,14 @@ module Bootsnap
 
         def initialize(jobs)
           @jobs = jobs
-          @pipe_out, @to_io = IO.pipe
+          @pipe_out, @to_io = IO.pipe(Encoding::BINARY, Encoding::BINARY, binmode: true)
           @pid = nil
         end
 
         def write(message, block: true)
           payload = Marshal.dump(message)
           if block
-            to_io.binwrite(payload)
+            to_io.write(payload)
             true
           else
             to_io.write_nonblock(payload, exception: false) != :wait_writable
