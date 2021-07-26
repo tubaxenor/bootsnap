@@ -37,7 +37,7 @@ module Bootsnap
 
         def initialize(jobs)
           @jobs = jobs
-          @pipe_out, @to_io = IO.pipe(Encoding::BINARY, Encoding::BINARY, binmode: true)
+          @pipe_out, @to_io = IO.pipe(binmode: true)
           @to_io.set_encoding(Encoding::BINARY)
           @pid = nil
         end
