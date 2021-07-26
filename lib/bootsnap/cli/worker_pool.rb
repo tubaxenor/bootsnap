@@ -42,13 +42,9 @@ module Bootsnap
         end
 
         def write(message, block: true)
-          payload = Marshal.dump(message)
+          payload = Marshal.dump(message).force_encoding(Encoding::UTF_8)
           if block
-            begin
-              to_io.write(payload)
-            rescue Encoding::UndefinedConversionError => e
-              puts "PAYLOAD: #{payload.inspect}\nMESSAGE: #{message.inspect}"
-            end
+            to_io.write(payload)
             true
           else
             to_io.write_nonblock(payload, exception: false) != :wait_writable
