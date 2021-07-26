@@ -42,9 +42,9 @@ module Bootsnap
         end
 
         def write(message, block: true)
-          payload = Marshal.dump(message).force_encoding(Encoding::UTF_8)
+          payload = Marshal.dump(message)
           if block
-            to_io.write(payload)
+            to_io.binwrite(payload)
             true
           else
             to_io.write_nonblock(payload, exception: false) != :wait_writable
